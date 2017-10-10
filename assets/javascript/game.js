@@ -2,41 +2,47 @@
 var game = {
     word:['s','a','t','u','r','n','s'],
     turnsRemaining:5,
-    userLetter:"",
+    userLetter:'',
     userWord:[],
     prevLetters:[],
-    prevLettersIndex:0,
     matchingWords:false
 };
 
 
 
+//game = new game();
+//pick random word from array
+//count indicies
+//
 
-while ((game.turnsRemaining > 0) && (!checkWin())) {
+
+game.userLetter = document.getElementById('user-letter');
+
+
+document.onkeyup = function(event) {
     getLetter();
     checkLetter();
-}
-
-if (checkWin()) {
-    document.write("You won!");
-}
-else {
-    document.write("You lost");
-}
-
+    game.prevLetters.push(game.userLetter);
+    if (checkWin() && game.matchingWords) {
+        console.log('You won!');
+        return;
+    }
+    else if (!checkWin()) {
+        console.log('You ran out of turns');
+        return;
+    }
+};
 
 
 function getLetter() {
-    game.userLetter = prompt('Enter your guess: ');
-    game.userLetter = game.userLetter.toLowerCase();
+    game.userLetter = event.key.toLowerCase();
     console.log('You guessed ', game.userLetter);
-    document.write('You guessed ', game.userLetter);
+    document.getElementById('user-letter').innerHTML = game.userLetter;
 }
 
 function checkLetter() {
     if (game.prevLetters.indexOf(game.userLetter) !== -1) {
-        console.log("You already guessed that letter");
-        document.write("You already guessed that letter");
+        console.log('You already guessed that letter');
     }
     else if (game.word.indexOf(game.userLetter) !== -1) {
         // check if the letter is in the word
@@ -46,19 +52,18 @@ function checkLetter() {
             }
         }
         console.log(game.userWord);
-        document.write(game.userWord);
     }
     else {
-        console.log("Wrong");
-        document.write("Wrong");
+        console.log('Wrong');
         game.turnsRemaining--;
     }
-    game.prevLetters[(game.prevLettersIndex)] = game.userLetter;
-    game.prevLettersIndex++;
 }
 
 function checkWin() {
-    if (game.word.length === game.userWord.length) {
+    if (game.turnsRemaining === 0) {
+        return false;
+    }
+    else if (game.word.length === game.userWord.length) {
         var valid = true;
         for (var i = 0; i < game.word.length; i++) {
             if (game.word[i] !== game.userWord[i]) {
@@ -69,7 +74,7 @@ function checkWin() {
             game.matchingWords = true;
         }
     }
-    return game.matchingWords;
+    return true;
 }
 
 
