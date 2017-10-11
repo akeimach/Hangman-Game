@@ -2,12 +2,35 @@
 
 var newGame = new Object();
 
-var possibleWords = [['s','a','t','u','r','n'], ['j','u','p','i','t','e','r'], ['m','o','o','n'],
-                     ['c','r','a','t','e','r'], ['c','o','m','e','t'], ['a','s','t','e','r','o','i','d'],
-                     ['g','a','l','a','x','y'], ['g','r','a','v','i','t','y']   ];
+var possibleWords = [['m','e','r','c','u','r','y'],
+                     ['v','e','n','u','s'],
+                     ['e','a','r','t','h'],
+                     ['p','l','a','n','e','t'],
+                     ['m','a','r','s'],
+                     ['j','u','p','i','t','e','r'],
+                     ['s','a','t','u','r','n'],
+                     ['u','r','a','n','u','s'],
+                     ['n','e','p','t','u','n','e'],
+                     ['p','l','u','t','o'],
+                     ['c','e','r','e','s'],
+                     ['m','o','o','n'], ['c','r','a','t','e','r'],
+                     ['c','o','m','e','t'], ['a','s','t','e','r','o','i','d'],
+                     ['g','a','l','a','x','y'], ['g','r','a','v','i','t','y'],
+                     ['b','l','a','c','k','-','h','o','l','e'],
+                     ['c','o','s','m','i','c','-','m','i','c','r','o','w','a','v','e',
+                            '-','b','a','c','k','g','r','o','u','n','d'],
+                     ['d','a','r','k','-','m','a','t','t','e','r'],
+                     ['s','o','l','a','r','-','s','y','s','t','e','m'],
+                     ['i','n','t','e','r','s','t','e','l','l','a','r'],
+                     ['s','t','a','r'],
+                     ['c','o','r','o','n','a'],
+                     ['m','a','g','n','e','t','o','s','p','h','e','r','e'],
+                     ['s','o','l','a','r','-','e','c','l','i','p','s','e'],
+                     ['l','u','n','a','r','-','e','c','l','i','p','s','e']   ];
 
 
-function Game(randomWord, userWord, userLetter, prevLetters, matchingWords, turnsRemaining) {
+function Game(gameInProgress, randomWord, userWord, userLetter, prevLetters, matchingWords, turnsRemaining) {
+  this.gameInProgress = gameInProgress;
   this.randomWord = randomWord;
   this.userWord = userWord;
   this.userLetter = userLetter;
@@ -18,37 +41,24 @@ function Game(randomWord, userWord, userLetter, prevLetters, matchingWords, turn
 
 
 window.onload = function(event) {
-    var randomWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
-    newGame = new Game(randomWord, makeGuessArray(randomWord), '', [], false, 10);
-    document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
-    document.getElementById('prev-letters').innerHTML = newGame.prevLetters.join(' ');
-    document.getElementById('turns-remaining').innerHTML = newGame.turnsRemaining;
+    document.getElementById('show-instruction').innerHTML = 'Press enter to start: ';
 }
 
 document.onkeyup = function(event) {
-    newGame.userLetter = event.key.toLowerCase();
-    document.getElementById('user-letter').innerHTML = newGame.userLetter;
-    checkLetter();
-    document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
-    document.getElementById('prev-letters').innerHTML = newGame.prevLetters.join(' ');
-    document.getElementById('turns-remaining').innerHTML = newGame.turnsRemaining;
-    if (checkWin() && newGame.matchingWords) {
-        document.getElementById('game-result').innerHTML = 'You won!';
-        gameOver();
+    if (!newGame.gameInProgress) {
+        if (event.key === 'Enter') {
+            startNewGame();
+        }
     }
-    else if (!checkWin()) {
-        document.getElementById('game-result').innerHTML = 'You lost. It was ' + newGame.randomWord.join('') + '.';
-        gameOver();
+    else {
+        newGame.userLetter = event.key.toLowerCase();
+        checkLetter();
+        updateGame();
+        if (checkWin() !== null) {
+            gameOver();
+        }
     }
 };
-
-function makeGuessArray(randomWord) {
-    var guessArray = [];
-    for (var i = 0; i < randomWord.length; i++) {
-        guessArray.push('_');
-    }
-    return guessArray;
-}
 
 function checkLetter() {
     if (newGame.randomWord.indexOf(newGame.userLetter) !== -1) {
@@ -79,19 +89,61 @@ function checkWin() {
         }
         if (valid) {
             newGame.matchingWords = true;
+            return true;
         }
     }
-    return true;
+    return null;
+}
+
+function makeGuessArray(randomWord) {
+    var guessArray = [];
+    for (var i = 0; i < randomWord.length; i++) {
+        if (randomWord[i] === '-') {
+            guessArray.push('-');
+        }
+        else {
+            guessArray.push('_');
+        }
+    }
+    return guessArray;
+}
+
+function startNewGame() {
+    var randomWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+    newGame = new Game(true, randomWord, makeGuessArray(randomWord), '', [], false, 10);
+    document.getElementById('show-instruction').innerHTML = 'Enter your guess: ';
+    document.getElementById('user-letter').innerHTML = '___';
+    document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
+    document.getElementById('prev-letters').innerHTML = 'Letters you\'ve already guessed: ' + newGame.prevLetters.join(' ');
+    document.getElementById('turns-remaining').innerHTML = 'Turns remaining: ' + newGame.turnsRemaining;
+    document.getElementById('game-result').innerHTML = '';
+}
+
+function updateGame() {
+    document.getElementById('user-letter').innerHTML = newGame.userLetter;
+    document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
+    document.getElementById('prev-letters').innerHTML = 'Letters you\'ve already guessed: ' + newGame.prevLetters.join(' ');
+    document.getElementById('turns-remaining').innerHTML = 'Turns remaining: ' + newGame.turnsRemaining;
 }
 
 
 function gameOver() {
-    document.onkeyup = null;
-    newGame = new Object();
-    // TODO: call main function when user is ready to start agian
-    // TODO: keep track of wins and losses
+    newGame.gameInProgress = false;
+    document.getElementById('show-instruction').innerHTML = 'Press enter for next round: ';
+    document.getElementById('user-letter').innerHTML = '___';
+    if (newGame.matchingWords) {
+        document.getElementById('game-result').innerHTML = 'You won!';
+    }
+    else {
+        document.getElementById('game-result').innerHTML = 'You lost. It was ' + newGame.randomWord.join('') + '.';
+    }
 }
 
 
-
+// TODO: call main function when user is ready to start agian
+// TODO: keep track of wins and losses
+// TODO: Add startGame function to be turned on in gameOver, valid if user presses enter
+// TODO: use keycode for spaces in word?
+// TODO: pass key function into other functions
+// TODO: make levels, don't repeat same word
 
