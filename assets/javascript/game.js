@@ -2,7 +2,9 @@
 
 var newGame = new Object();
 
-var possibleWords = [['s','a','t','u','r','n'], ['j','u','p','i','t','e','r']];
+var possibleWords = [['s','a','t','u','r','n'], ['j','u','p','i','t','e','r'], ['m','o','o','n'],
+                     ['c','r','a','t','e','r'], ['c','o','m','e','t'], ['a','s','t','e','r','o','i','d'],
+                     ['g','a','l','a','x','y'], ['g','r','a','v','i','t','y']   ];
 
 
 function Game(randomWord, userWord, userLetter, prevLetters, matchingWords, turnsRemaining) {
@@ -17,25 +19,26 @@ function Game(randomWord, userWord, userLetter, prevLetters, matchingWords, turn
 
 window.onload = function(event) {
     var randomWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
-    newGame = new Game(randomWord, makeGuessArray(randomWord), '', [], false, 5);
+    newGame = new Game(randomWord, makeGuessArray(randomWord), '', [], false, 10);
     document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
     document.getElementById('prev-letters').innerHTML = newGame.prevLetters.join(' ');
     document.getElementById('turns-remaining').innerHTML = newGame.turnsRemaining;
 }
 
 document.onkeyup = function(event) {
-    getLetter();
+    newGame.userLetter = event.key.toLowerCase();
+    document.getElementById('user-letter').innerHTML = newGame.userLetter;
     checkLetter();
     document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
     document.getElementById('prev-letters').innerHTML = newGame.prevLetters.join(' ');
     document.getElementById('turns-remaining').innerHTML = newGame.turnsRemaining;
     if (checkWin() && newGame.matchingWords) {
-        console.log('You won!');
-        return;
+        document.getElementById('game-result').innerHTML = 'You won!';
+        gameOver();
     }
     else if (!checkWin()) {
-        console.log('You ran out of turns');
-        return;
+        document.getElementById('game-result').innerHTML = 'You lost. It was ' + newGame.randomWord.join('') + '.';
+        gameOver();
     }
 };
 
@@ -47,13 +50,6 @@ function makeGuessArray(randomWord) {
     return guessArray;
 }
 
-
-function getLetter() {
-    newGame.userLetter = event.key.toLowerCase();
-    console.log('You guessed ', newGame.userLetter);
-    document.getElementById('user-letter').innerHTML = newGame.userLetter;
-}
-
 function checkLetter() {
     if (newGame.randomWord.indexOf(newGame.userLetter) !== -1) {
         // check if the letter is in the word
@@ -62,7 +58,6 @@ function checkLetter() {
                 newGame.userWord[i] = newGame.userLetter;
             }
         }
-        console.log(newGame.userWord);
     }
     else if (newGame.prevLetters.indexOf(newGame.userLetter) === -1) {
         // letter is wrong and hasn't been guessed already
@@ -89,6 +84,13 @@ function checkWin() {
     return true;
 }
 
+
+function gameOver() {
+    document.onkeyup = null;
+    newGame = new Object();
+    // TODO: call main function when user is ready to start agian
+    // TODO: keep track of wins and losses
+}
 
 
 

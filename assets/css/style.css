@@ -1,0 +1,24 @@
+body {
+    background-image: url("../images/Hubble_deep_field.jpg");
+    font-family: 'Georgia',Times,Times New Roman,serif;
+    font-weight: bold;
+    color: #EDEDED;
+}
+
+h1 {
+    font-size: 36px;
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 28px;
+    padding: 10px;
+}
+
+section {
+    background: #6E6E6E;
+    border-radius: 15px;
+    width: 70%;
+    margin: 10% auto;
+}
