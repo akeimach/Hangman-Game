@@ -1,6 +1,7 @@
 
 
 var newGame = new Object();
+var stats = new Object();
 
 var possibleWords = [['m','e','r','c','u','r','y'],
                      ['v','e','n','u','s'],
@@ -30,21 +31,32 @@ var possibleWords = [['m','e','r','c','u','r','y'],
 
 
 function Game(gameInProgress, randomWord, userWord, userLetter, prevLetters, matchingWords, turnsRemaining) {
-  this.gameInProgress = gameInProgress;
-  this.randomWord = randomWord;
-  this.userWord = userWord;
-  this.userLetter = userLetter;
-  this.prevLetters = prevLetters;
-  this.matchingWords = matchingWords;
-  this.turnsRemaining = turnsRemaining;
+    this.gameInProgress = gameInProgress;
+    this.randomWord = randomWord;
+    this.userWord = userWord;
+    this.userLetter = userLetter;
+    this.prevLetters = prevLetters;
+    this.matchingWords = matchingWords;
+    this.turnsRemaining = turnsRemaining;
+}
+
+
+function Stats(wins, losses, level) {
+    this.wins = wins;
+    this.losses = losses;
+    this.level = level;
 }
 
 
 window.onload = function(event) {
     document.getElementById('show-instruction').innerHTML = 'Press enter to start: ';
+    stats = new Stats(0, 0, 1);
+    document.getElementById('score-wins').innerHTML = 'Wins: ' + stats.wins;
+    document.getElementById('score-losses').innerHTML = 'Losses: ' + stats.losses;
 }
 
 document.onkeyup = function(event) {
+    // console.log(event); String.fromCharCode(event.keyCode).toLowerCase()
     if (!newGame.gameInProgress) {
         if (event.key === 'Enter') {
             startNewGame();
@@ -132,17 +144,20 @@ function gameOver() {
     document.getElementById('show-instruction').innerHTML = 'Press enter for next round: ';
     document.getElementById('user-letter').innerHTML = '___';
     if (newGame.matchingWords) {
+        stats.wins++;
         document.getElementById('game-result').innerHTML = 'You won!';
+        document.getElementById('score-wins').innerHTML = 'Wins: ' + stats.wins;
     }
     else {
+        stats.losses++;
         document.getElementById('game-result').innerHTML = 'You lost. It was ' + newGame.randomWord.join('') + '.';
+        document.getElementById('score-losses').innerHTML = 'Losses: ' + stats.losses;
     }
 }
 
-
-// TODO: call main function when user is ready to start agian
-// TODO: keep track of wins and losses
-// TODO: Add startGame function to be turned on in gameOver, valid if user presses enter
+// TODO: mobile keyboard
+// TODO: queryselector?
+// TODO: add function named vs unnamed, hoisting
 // TODO: use keycode for spaces in word?
 // TODO: pass key function into other functions
 // TODO: make levels, don't repeat same word
