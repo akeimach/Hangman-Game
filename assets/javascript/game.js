@@ -29,6 +29,8 @@ var possibleWords = [['m','e','r','c','u','r','y'],
                      ['s','o','l','a','r','-','e','c','l','i','p','s','e'],
                      ['l','u','n','a','r','-','e','c','l','i','p','s','e']   ];
 
+possibleWords = [['m','e','r','c','u','r','y']];
+
 
 function Game(gameInProgress, randomWord, userWord, userLetter, prevLetters, matchingWords, turnsRemaining) {
     this.gameInProgress = gameInProgress;
@@ -116,12 +118,6 @@ function updateGame() {
 
 function gameOver() {
     newGame.gameInProgress = false;
-    if (possibleWords.length > -1) {
-        possibleWords.splice(possibleWords.indexOf(newGame.randomWord), 1);
-        console.log(possibleWords);
-    }
-    document.getElementById('show-instruction').innerHTML = 'Press enter for next round: ';
-    document.getElementById('user-letter').innerHTML = '___';
     if (newGame.matchingWords) {
         stats.wins++;
         document.getElementById('game-result').innerHTML = 'You won!';
@@ -131,6 +127,26 @@ function gameOver() {
         stats.losses++;
         document.getElementById('game-result').innerHTML = 'You lost. It was ' + newGame.randomWord.join('') + '.';
         document.getElementById('score-losses').innerHTML = 'Losses: ' + stats.losses;
+    }
+    if (possibleWords.length > 1) {
+        possibleWords.splice(possibleWords.indexOf(newGame.randomWord), 1);
+    }
+    if (possibleWords.length === 1) {
+        console.log("YO" + possibleWords);
+        alert('All levels complete! You\'re the champion!');
+        document.onkeyup = null;
+        document.getElementById('show-instruction').innerHTML = 'All levels complete! You\'re the champion!';
+        document.getElementById('user-letter').innerHTML = '';
+        document.getElementById('user-word').innerHTML = '';
+        document.getElementById('prev-letters').innerHTML = '';
+        document.getElementById('turns-remaining').innerHTML = '';
+        document.getElementById('game-result').innerHTML = '';
+        document.getElementById('score-wins').innerHTML = 'Wins: ' + stats.wins;
+        document.getElementById('score-losses').innerHTML = 'Losses: ' + stats.losses;
+    }
+    else {
+        document.getElementById('show-instruction').innerHTML = 'Press enter for next round: ';
+        document.getElementById('user-letter').innerHTML = '___';
     }
 }
 
