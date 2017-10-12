@@ -132,8 +132,6 @@ function gameOver() {
         possibleWords.splice(possibleWords.indexOf(newGame.randomWord), 1);
     }
     if (possibleWords.length === 1) {
-        console.log("YO" + possibleWords);
-        alert('All levels complete! You\'re the champion!');
         document.onkeyup = null;
         document.getElementById('show-instruction').innerHTML = 'All levels complete! You\'re the champion!';
         document.getElementById('user-letter').innerHTML = '';
