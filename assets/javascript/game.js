@@ -29,8 +29,6 @@ var possibleWords = [['m','e','r','c','u','r','y'],
                      ['s','o','l','a','r','-','e','c','l','i','p','s','e'],
                      ['l','u','n','a','r','-','e','c','l','i','p','s','e']   ];
 
-possibleWords = [['m','e','r','c','u','r','y']];
-
 
 function Game(gameInProgress, randomWord, userWord, userLetter, prevLetters, matchingWords, turnsRemaining) {
     this.gameInProgress = gameInProgress;
