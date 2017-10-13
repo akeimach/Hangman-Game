@@ -115,7 +115,6 @@ function startNewGame() {
     document.getElementById('show-instruction').innerHTML = 'Enter your guess: ';
     document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
     document.getElementById('prev-letters').innerHTML = 'Letters you\'ve already guessed: ' + newGame.prevLetters.join(' ');
-    document.getElementById('turns-remaining').innerHTML = 'Turns remaining: ' + newGame.turnsRemaining;
     document.getElementById('game-result').innerHTML = '';
 }
 
@@ -124,7 +123,6 @@ function updateGame() {
     document.getElementById('user-letter-virtual').value = '';
     document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
     document.getElementById('prev-letters').innerHTML = 'Letters you\'ve already guessed: ' + newGame.prevLetters.join(' ');
-    document.getElementById('turns-remaining').innerHTML = 'Turns remaining: ' + newGame.turnsRemaining;
 }
 
 
@@ -162,8 +160,9 @@ function gameOver() {
 
 
 window.onload = function(event) {
-    document.getElementById('show-instruction').innerHTML = 'Press enter to start: ';
     stats = new Stats(0, 0);
+    document.getElementById('show-instruction').innerHTML = 'Press enter to start: ';
+    document.getElementById('turns-remaining').innerHTML = 'Turns remaining: ';
     document.getElementById('score-wins').innerHTML = 'Wins: ' + stats.wins;
     document.getElementById('score-losses').innerHTML = 'Losses: ' + stats.losses;
 }
