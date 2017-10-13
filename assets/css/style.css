@@ -25,15 +25,15 @@ section {
     margin: 10% auto;
 }
 
-.mobile-version {
-    display: none;
+.mobile-version {    
+    display: block;
+    padding: 5px;
+    margin: 5px 5px 5px 15px;
 }
 
 
-@media only screen and (max-width: 940px) {
+@media only screen and (min-width: 1200px) {
     .mobile-version {
-        display: block;
-        padding: 5px;
-        margin: 5px 5px 5px 15px;
+        display: none;
     }
 }
