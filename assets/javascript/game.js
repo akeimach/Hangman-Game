@@ -178,6 +178,3 @@ document.onkeyup = function(event) {
 };
 
 
-// TODO: add function named vs unnamed, hoisting
-// TODO: make levels
-
