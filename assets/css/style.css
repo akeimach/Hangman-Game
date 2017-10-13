@@ -21,8 +21,9 @@ h2 {
 section {
     background: #6E6E6E;
     border-radius: 15px;
-    width: 70%;
-    margin: 10% auto;
+    float: left;
+    width: 90%;
+    margin: 10px 5%;
 }
 
 .mobile-version {    
@@ -35,5 +36,13 @@ section {
 @media only screen and (min-width: 1200px) {
     .mobile-version {
         display: none;
+    }
+    .game-content {
+        width: 55%;
+        margin-right: 5px;
+    }
+    .score-content {
+        width: 34%;
+        margin-left: 5px;
     }
 }
