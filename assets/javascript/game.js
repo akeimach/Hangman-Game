@@ -1,8 +1,8 @@
 
-
+// Declare the two objects as globals
 var newGame = new Object();
 var stats = new Object();
-
+// All possible words
 var possibleWords = [['m','e','r','c','u','r','y'],
                      ['v','e','n','u','s'],
                      ['e','a','r','t','h'],
@@ -29,7 +29,7 @@ var possibleWords = [['m','e','r','c','u','r','y'],
                      ['s','o','l','a','r',' ','e','c','l','i','p','s','e'],
                      ['l','u','n','a','r',' ','e','c','l','i','p','s','e']   ];
 
-
+// Constructor for new game object
 function Game(gameInProgress, randomWord, userWord, userLetter, prevLetters, matchingWords, turnsRemaining) {
     this.gameInProgress = gameInProgress;
     this.randomWord = randomWord;
@@ -40,7 +40,7 @@ function Game(gameInProgress, randomWord, userWord, userLetter, prevLetters, mat
     this.turnsRemaining = turnsRemaining;
 }
 
-
+// Constructor for stats object
 function Stats(wins, losses, level) {
     this.wins = wins;
     this.losses = losses;
@@ -48,16 +48,18 @@ function Stats(wins, losses, level) {
 }
 
 function checkLetter() {
+    // Check if user's letter is in word array
     if (newGame.randomWord.indexOf(newGame.userLetter) !== -1) {
-        // check if the letter is in the word
+        // Use loop to find if letter in multiple positions
         for (var i = 0; i < newGame.randomWord.length; i++) {
             if (newGame.randomWord[i] === newGame.userLetter) {
+                // Update user's progress with new letter
                 newGame.userWord[i] = newGame.userLetter;
             }
         }
     }
+    // If letter not in word and letter has not already been guessed
     else if (newGame.prevLetters.indexOf(newGame.userLetter) === -1) {
-        // letter is wrong and hasn't been guessed already
         newGame.prevLetters.push(newGame.userLetter);
         newGame.turnsRemaining--;
     }
@@ -69,8 +71,10 @@ function checkWin() {
     }
     else if (newGame.randomWord.length === newGame.userWord.length) {
         var valid = true;
+        // Loop through user word and correct word to compare each letter
         for (var i = 0; i < newGame.randomWord.length; i++) {
             if (newGame.randomWord[i] !== newGame.userWord[i]) {
+                // False flag if at least one mismatch
                 valid = false;
             }
         }
@@ -79,10 +83,11 @@ function checkWin() {
             return true;
         }
     }
+    // Return null if game still in play
     return null;
 }
 
-function makeGuessArray() {
+function makeProgressArray() {
     var guessArray = [];
     for (var i = 0; i < newGame.randomWord.length; i++) {
         if (newGame.randomWord[i] === ' ') {
@@ -107,11 +112,11 @@ function makeDisplayString() {
 }
 
 function startNewGame() {
+    // Choose a random word from the array
     newGame.randomWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
-    newGame.userWord = makeGuessArray(newGame.randomWord);
+    newGame.userWord = makeProgressArray(newGame.randomWord);
     newGame = new Game(true, newGame.randomWord, newGame.userWord, '', [], false, 10);
     document.getElementById('show-instruction').innerHTML = 'Enter your guess: ';
-    document.getElementById('user-letter').innerHTML = '___';
     document.getElementById('user-word').innerHTML = makeDisplayString(newGame.userWord);
     document.getElementById('prev-letters').innerHTML = 'Letters you\'ve already guessed: ' + newGame.prevLetters.join(' ');
     document.getElementById('turns-remaining').innerHTML = 'Turns remaining: ' + newGame.turnsRemaining;
@@ -120,6 +125,7 @@ function startNewGame() {
 
 function updateGame() {
     document.getElementById('user-letter').innerHTML = newGame.userLetter;
+    document.getElementById('user-letter-virtual').value = '';
     document.getElementById('user-word').innerHTML = makeDisplayString(newGame.userWord);
     document.getElementById('prev-letters').innerHTML = 'Letters you\'ve already guessed: ' + newGame.prevLetters.join(' ');
     document.getElementById('turns-remaining').innerHTML = 'Turns remaining: ' + newGame.turnsRemaining;
@@ -145,12 +151,14 @@ function gameOver() {
         document.onkeyup = null;
         document.getElementById('show-instruction').innerHTML = 'All levels complete! You\'re the champion!';
         document.getElementById('user-letter').innerHTML = '';
+        document.getElementById('user-letter-virtual').value = '';
         document.getElementById('score-wins').innerHTML = 'Wins: ' + stats.wins;
         document.getElementById('score-losses').innerHTML = 'Losses: ' + stats.losses;
     }
     else {
         document.getElementById('show-instruction').innerHTML = 'Press enter for next round: ';
-        document.getElementById('user-letter').innerHTML = '___';
+        document.getElementById('user-letter').innerHTML = '';
+        document.getElementById('user-letter-virtual').value = '';
     }
 }
 
@@ -177,8 +185,9 @@ document.onkeyup = function(event) {
         }
     }
 };
-// TODO: mobile keyboard
+
+
 // TODO: add function named vs unnamed, hoisting
-// TODO: pass key function into other functions
 // TODO: make levels
+// TODO: consolidate progress and display functions
 
