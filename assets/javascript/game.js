@@ -41,10 +41,15 @@ function Game(gameInProgress, randomWord, userWord, userLetter, prevLetters, mat
 }
 
 // Constructor for stats object
-function Stats(wins, losses, level) {
+function Stats(wins, losses) {
     this.wins = wins;
     this.losses = losses;
-    this.level = level;
+}
+
+function showIcons() {
+    for (var i = 1; i < newGame.turnsRemaining + 1; i++) {
+        $('#icon-' + i).animate({ opacity: 1 })
+    }
 }
 
 function checkLetter() {
@@ -61,6 +66,8 @@ function checkLetter() {
     // If letter not in word and letter has not already been guessed
     else if (newGame.prevLetters.indexOf(newGame.userLetter) === -1) {
         newGame.prevLetters.push(newGame.userLetter);
+        // Fade out icon for each turn used
+        $('#icon-' + newGame.turnsRemaining).animate({ opacity: 0 })
         newGame.turnsRemaining--;
     }
 }
@@ -104,7 +111,7 @@ function startNewGame() {
     // Choose a random word from the array
     newGame.randomWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
     newGame.userWord = makeProgressArray(newGame.randomWord);
-    newGame = new Game(true, newGame.randomWord, newGame.userWord, '', [], false, 10);
+    newGame = new Game(true, newGame.randomWord, newGame.userWord, '', [], false, 8);
     document.getElementById('show-instruction').innerHTML = 'Enter your guess: ';
     document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
     document.getElementById('prev-letters').innerHTML = 'Letters you\'ve already guessed: ' + newGame.prevLetters.join(' ');
@@ -156,7 +163,7 @@ function gameOver() {
 
 window.onload = function(event) {
     document.getElementById('show-instruction').innerHTML = 'Press enter to start: ';
-    stats = new Stats(0, 0, 1);
+    stats = new Stats(0, 0);
     document.getElementById('score-wins').innerHTML = 'Wins: ' + stats.wins;
     document.getElementById('score-losses').innerHTML = 'Losses: ' + stats.losses;
 }
@@ -165,6 +172,7 @@ document.onkeyup = function(event) {
     if (!newGame.gameInProgress) {
         if (event.key === 'Enter') {
             startNewGame();
+            showIcons();
         }
     }
     else {

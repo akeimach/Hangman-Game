@@ -26,6 +26,11 @@ section {
     margin: 10px 5%;
 }
 
+img {
+    width: 11.5%;
+    height: auto;
+}
+
 .mobile-version {    
     display: block;
     padding: 5px;
@@ -39,10 +44,12 @@ section {
     }
     .game-content {
         width: 55%;
+        height: 250px;
         margin-right: 5px;
     }
     .score-content {
         width: 34%;
-        margin-left: 5px;
+        height: 120px;
+        margin: 10px 5% 0px 5px;
     }
 }
