@@ -40,8 +40,10 @@ img {
 }
 
 #user-letter {
-    font-size: 28px;
+    font-family: 'Georgia',Times,Times New Roman,serif;
+    font-weight: bold;
     color: #EDEDED;
+    font-size: 28px;
     height: 30px;
     width: 45px;
     margin: 5px;
