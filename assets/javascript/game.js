@@ -119,8 +119,7 @@ function startNewGame() {
 }
 
 function updateGame() {
-    document.getElementById('user-letter').innerHTML = newGame.userLetter;
-    document.getElementById('user-letter-virtual').value = '';
+    document.getElementById('user-letter').value = newGame.userLetter;
     document.getElementById('user-word').innerHTML = newGame.userWord.join(' ');
     document.getElementById('prev-letters').innerHTML = 'Letters you\'ve already guessed: ' + newGame.prevLetters.join(' ');
 }
@@ -146,15 +145,13 @@ function gameOver() {
         // Turn off key listener because all levels done
         document.onkeyup = null;
         document.getElementById('show-instruction').innerHTML = 'All levels complete! You\'re the champion!';
-        document.getElementById('user-letter').innerHTML = '';
-        document.getElementById('user-letter-virtual').value = '';
+        document.getElementById('user-letter').value = '';
         document.getElementById('score-wins').innerHTML = 'Wins: ' + stats.wins;
         document.getElementById('score-losses').innerHTML = 'Losses: ' + stats.losses;
     }
     else {
         document.getElementById('show-instruction').innerHTML = 'Press enter for next round: ';
-        document.getElementById('user-letter').innerHTML = '';
-        document.getElementById('user-letter-virtual').value = '';
+        document.getElementById('user-letter').value = '';
     }
 }
 

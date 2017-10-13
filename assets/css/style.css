@@ -7,14 +7,12 @@ body {
 
 h1 {
     font-size: 40px;
-    font-weight: bold;
     padding: 20px;
     text-align: center;
 }
 
 h2 {
     font-size: 28px;
-    font-weight: bold;
     padding: 10px;
 }
 
@@ -26,22 +24,36 @@ section {
     margin: 10px 5%;
 }
 
-img {
-    width: 11.5%;
-    height: auto;
-}
-
-.mobile-version {    
+input {
     display: block;
     padding: 5px;
     margin: 5px 5px 5px 15px;
 }
 
+img {
+    width: 11.5%;
+    height: auto;
+}
+
+.instruction-align {
+    float: left;
+}
+
+#user-letter {
+    font-size: 28px;
+    color: #EDEDED;
+    height: 30px;
+    width: 45px;
+    margin: 5px;
+    background: #6E6E6E;
+}
+
+.clearfix {
+    overflow: auto;
+}
+
 
 @media only screen and (min-width: 1200px) {
-    .mobile-version {
-        display: none;
-    }
     .game-content {
         width: 55%;
         height: 250px;
