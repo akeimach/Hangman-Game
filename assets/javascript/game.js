@@ -53,22 +53,24 @@ function showIcons() {
 }
 
 function checkLetter() {
-    // Check if user's letter is in word array
-    if (newGame.randomWord.indexOf(newGame.userLetter) !== -1) {
-        // Use loop to find if letter in multiple positions
-        for (var i = 0; i < newGame.randomWord.length; i++) {
-            if (newGame.randomWord[i] === newGame.userLetter) {
-                // Update user's progress with new letter
-                newGame.userWord[i] = newGame.userLetter;
+    if (/[A-z]/.test(newGame.userLetter)) {
+        // Check if user's letter is in word array
+        if (newGame.randomWord.indexOf(newGame.userLetter) !== -1) {
+            // Use loop to find if letter in multiple positions
+            for (var i = 0; i < newGame.randomWord.length; i++) {
+                if (newGame.randomWord[i] === newGame.userLetter) {
+                    // Update user's progress with new letter
+                    newGame.userWord[i] = newGame.userLetter;
+                }
             }
         }
-    }
-    // If letter not in word and letter has not already been guessed
-    else if (newGame.prevLetters.indexOf(newGame.userLetter) === -1) {
-        newGame.prevLetters.push(newGame.userLetter);
-        // Fade out icon for each turn used
-        $('#icon-' + newGame.turnsRemaining).animate({ opacity: 0 })
-        newGame.turnsRemaining--;
+        // If letter not in word and letter has not already been guessed
+        else if (newGame.prevLetters.indexOf(newGame.userLetter) === -1) {
+            newGame.prevLetters.push(newGame.userLetter);
+            // Fade out icon for each turn used
+            $('#icon-' + newGame.turnsRemaining).animate({ opacity: 0 })
+            newGame.turnsRemaining--;
+        }
     }
 }
 
